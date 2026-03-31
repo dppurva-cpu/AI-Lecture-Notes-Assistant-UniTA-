@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniTA - AI Teaching Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <div>
+                    <h1>UniTA</h1>
+                    <p class="subtitle">Your AI Teaching Assistant</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <i class="fas fa-file-pdf"></i>
+                    <span id="fileCount">0 files</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-clock"></i>
+                    <span id="studyTime">0 min</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <!-- Left Panel: Upload & Actions -->
+            <div class="left-panel">
+                <!-- Upload Section -->
+                <div class="card upload-section">
+                    <h2><i class="fas fa-cloud-upload-alt"></i> Upload Study Materials</h2>
+                    
+                    <div class="upload-area" id="dropArea" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>Drop PDFs here or click to browse</h3>
+                        <p>Upload your lecture notes, textbooks, or study guides</p>
+                        <input type="file" id="fileInput" accept=".pdf" multiple style="display: none;">
+                    </div>
+                    
+                    <div class="selected-files" id="selectedFiles">
+                        <!-- Files will appear here -->
+                    </div>
+                    
+                    <div class="upload-actions">
+                        <button class="btn btn-primary" onclick="uploadFiles()" id="uploadBtn">
+                            <i class="fas fa-upload"></i> Process Files
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearFiles()">
+                            <i class="fas fa-trash"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Study Tools -->
+                <div class="card study-tools">
+                    <h2><i class="fas fa-tools"></i> Study Tools</h2>
+                    
+                    <div class="tool-grid">
+                        <div class="tool-card" onclick="generateSummary()">
+                            <div class="tool-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Generate Summary</h3>
+                            <p>Get overview of all uploaded materials</p>
+                        </div>
+                        
+                        <div class="tool-card" onclick="askExampleQuestion('What are the main topics in these documents?')">
+                            <div class="tool-icon" style="background: linear-gradient(135deg, #4CAF50, #45a049);">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <h3>Ask Questions</h3>
+                            <p>Chat with AI about your materials</p>
+                        </div>
+                        
+                        <div class="tool-card" onclick="generateQuiz()">
+                            <div class="tool-icon" style="background: linear-gradient(135deg, #FF9800, #FF5722);">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Generate Quiz</h3>
+                            <p>Test your knowledge with questions</p>
+                        </div>
+                        
+                        <div class="tool-card" onclick="createStudyPlan()">
+                            <div class="tool-icon" style="background: linear-gradient(135deg, #9C27B0, #673AB7);">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h3>Study Plan</h3>
+                            <p>Get personalized study schedule</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results & Chat -->
+            <div class="right-panel">
+                <!-- Summary Section -->
+                <div class="card summary-section" id="summarySection" style="display: none;">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-pie"></i> Document Summary</h2>
+                        <button class="btn-icon" onclick="closeSummary()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="summary-content" id="summaryContent">
+                        <!-- Summary will appear here -->
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="card chat-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-comments"></i> Ask Questions</h2>
+                        <div class="chat-actions">
+                            <button class="btn-icon" onclick="clearChat()" title="Clear chat">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-container">
+                        <div class="chat-box" id="chatBox">
+                            <div class="welcome-message">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h3>Welcome to UniTA!</h3>
+                                <p>Upload your PDFs and start asking questions about your study materials.</p>
+                                <p>I'll help you understand, summarize, and learn effectively.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-questions">
+                            <button class="quick-btn" onclick="askExampleQuestion('What are the main topics?')">
+                                <i class="fas fa-book"></i> Main Topics
+                            </button>
+                            <button class="quick-btn" onclick="askExampleQuestion('Explain the key concepts')">
+                                <i class="fas fa-lightbulb"></i> Key Concepts
+                            </button>
+                            <button class="quick-btn" onclick="askExampleQuestion('Give me a summary')">
+                                <i class="fas fa-file-alt"></i> Summary
+                            </button>
+                            <button class="quick-btn" onclick="askExampleQuestion('Quiz me on this')">
+                                <i class="fas fa-question"></i> Quiz Me
+                            </button>
+                        </div>
+                        
+                        <div class="chat-input">
+                            <input type="text" 
+                                   id="userInput" 
+                                   placeholder="Ask anything about your uploaded materials..."
+                                   onkeypress="if(event.key === 'Enter') sendMessage()">
+                            <button class="btn-send" onclick="sendMessage()" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <i class="fas fa-info-circle"></i>
+            <span id="statusText">Ready to upload PDFs</span>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
