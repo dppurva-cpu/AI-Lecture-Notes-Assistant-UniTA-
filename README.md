@@ -1,1 +1,1 @@
-# AI-Lecture-Notes-Assistant-UniTA-
+# AI Lecture Notes assistant-UniTA
